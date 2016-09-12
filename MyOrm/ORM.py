@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import MySQLdb
 
@@ -29,25 +30,13 @@ class Driver(object):
 			print "Error"
 			self.db.rollback()
 
-	#def input_transform(self, value):
-	#	"""Returns a dict of appropriate values"""
-	#	result_tuple = ()
-	#	
-	#	for i in value:
-	#		if isinstance(i, (int, str)):
-	#			result_tuple = result_tuple + (i, )
-	#
-	#	return result_tuple
-
-
-
 	def insert(self, table_name, columns, attrs):
 		"""Inserts new records in a table"""
-		insert_query = "INSERT INTO %s (%s) VALUES %s" \
+		insert_query = "INSERT INTO %s (%s) VALUES (%s)" \
 			% (table_name, (', ').join(columns), attrs)
 			
 		#Use execute_query() method
-		self.execute_query(insert_query)
+		print insert_query
 
 	def select(self, table_name, columns):
 		"""Read the result of query"""
@@ -78,20 +67,20 @@ class Driver(object):
 
 
 if __name__ == '__main__':
-	tmpDB = Driver()
+	
+	#tmpDB = Driver()
 
-	#Works
-	tmpDB.connect("localhost", "denny", "isurrender", "local_db")
+	#Connecting to database
+	#tmpDB.connect("localhost", "denny", "isurrender", "local_db")
 
-	#Works
+	
 	#print('Executing any query')
 	#tmpDB.execute_query('DROP TABLE IF EXISTS Test')
-	#tmpDB.execute_query('CREATE TABLE Test (Name VARCHAR(30))')
+	#tmpDB.execute_query('CREATE TABLE Test (Name VARCHAR(30), Age INT)')
 
-	print('Inserting values')
-	tmpDB.insert('Test', ('Name'), ('Nick', 'FRE'))
-	#tmpDB.insert('Test', '(Name, Age, Role)', "'Oleksiy', 20, 'Student'")
-	#tmpDB.insert('Schools', ('name', 'address'), ('School 23', 'st. Green'))
+	
+	#print('Inserting values')
+	#tmpDB.insert('Test', ('Name', 'Age'), ('Nick', 23))
 
 	#Works
 	#print('Reading data')
@@ -105,3 +94,4 @@ if __name__ == '__main__':
 	#print('Deleting data')
 	#tmpDB.delete('EMPLOYEE', 'AGE = 21')
 
+	#tmpDB.db.close()
