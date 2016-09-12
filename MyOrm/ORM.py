@@ -30,13 +30,33 @@ class Driver(object):
 			print "Error"
 			self.db.rollback()
 
+
+
+	def tuple_transform(self, _tuple):
+		"""Transforms tuple into string"""
+		loop_index = 1
+		val = '('
+		for field in _tuple:
+			if isinstance(field, int):
+				val += str(field)
+				if loop_index < len(_tuple):
+					val += ', '
+			elif isinstance(field, str):
+				val += '"' + field + '"'
+				if loop_index < len(_tuple):
+					val += ', '
+			loop_index += 1
+		val += ')'
+
+		return val		
+
 	def insert(self, table_name, columns, attrs):
 		"""Inserts new records in a table"""
-		insert_query = "INSERT INTO %s (%s) VALUES (%s)" \
-			% (table_name, (', ').join(columns), attrs)
+		insert_query = "INSERT INTO %s (%s) VALUES %s" \
+			% (table_name, (', ').join(columns), self.tuple_transform(attrs))
 			
 		#Use execute_query() method
-		print insert_query
+		self.execute_query(insert_query)
 
 	def select(self, table_name, columns):
 		"""Read the result of query"""
@@ -66,7 +86,7 @@ class Driver(object):
 		self.execute_query(delete_query)		
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 	
 	#tmpDB = Driver()
 
@@ -78,19 +98,15 @@ if __name__ == '__main__':
 	#tmpDB.execute_query('DROP TABLE IF EXISTS Test')
 	#tmpDB.execute_query('CREATE TABLE Test (Name VARCHAR(30), Age INT)')
 
-	
 	#print('Inserting values')
-	#tmpDB.insert('Test', ('Name', 'Age'), ('Nick', 23))
+	#tmpDB.insert('Test', ('Name', 'Age'), ('Nick', 24))
 
-	#Works
 	#print('Reading data')
-	#print tmpDB.select('EMPLOYEE', ('FIRST_NAME', 'LAST_NAME'))
+	#print tmpDB.select('Test', ('Name', 'Age'))	
 	
-	#Works
 	#print('Updating data')
 	#tmpDB.update('EMPLOYEE', 'FIRST_NAME = "Denis"', 'LAST_NAME = "Mohan"')
 
-	#Works
 	#print('Deleting data')
 	#tmpDB.delete('EMPLOYEE', 'AGE = 21')
 
